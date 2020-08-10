@@ -32,8 +32,8 @@ Resources:
   Service:
     Type: AWS::ECS::Service
     # This dependency is needed so that the load balancer is setup correctly in time
-    DependsOn:
-      - ListenerHTTPS
+    #DependsOn:
+      #- ListenerHTTPS
     Properties: 
       ServiceName: 'Fargate Service'
       Cluster: !Ref Cluster
