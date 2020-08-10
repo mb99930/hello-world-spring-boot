@@ -25,7 +25,7 @@ Resources:
           LogConfiguration:
             LogDriver: awslogs
             Options:
-              #awslogs-region: !Ref AWS::Region
+              awslogs-region: !Ref AWS::Region
               awslogs-group: 'apis'
               awslogs-stream-prefix: ecs
   # A role for the containers
