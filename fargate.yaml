@@ -17,7 +17,7 @@ Resources:
       Cpu: 256
       Memory: 0.5GB
       ContainerDefinitions:
-        - Name: 'fargate service'
+        - Name: 'FargateService'
           Image: 310643530327.dkr.ecr.ap-southeast-1.amazonaws.com/spring123:latest
           PortMappings:
             - ContainerPort: 8085
