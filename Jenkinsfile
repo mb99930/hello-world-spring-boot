@@ -25,10 +25,19 @@ pipeline {
    }
     stage('Build Docker Image'){
      steps {		
-			bat 'docker build -t springio/gs-spring-boot-docker .'
+			bat 'docker build -t spring123 .'
 		}
    }
 
+     stage('Push Docker Image'){
+		steps {
+        	echo 'connecting to ECR.. '
+           withDockerRegistry([url: "https://310643530327.dkr.ecr.ap-southeast-1.amazonaws.com/spring123",credentialsId: "ecr:ap-southeast-1:aws-credentials"]) {
+           bat 'docker tag spring123:latest 310643530327.dkr.ecr.ap-southeast-1.amazonaws.com/spring123:latest'
+	   bat 'docker push 310643530327.dkr.ecr.ap-southeast-1.amazonaws.com/spring123:latest'
+               }
+	    }
+	}
 
 }
 }
