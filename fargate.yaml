@@ -38,7 +38,7 @@ Resources:
       ServiceName: 'Fargate Service'
       Cluster: !Ref Cluster
       TaskDefinition: !Ref TaskDefinition
-      LaunchType:'FARGATE'
+      LaunchType: 'FARGATE'
       DeploymentConfiguration:
         MinimumHealthyPercent: 70
         MaximumPercent: 200
