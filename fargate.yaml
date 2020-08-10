@@ -1,0 +1,71 @@
+AWSTemplateFormatVersion: 2020-08-08
+Description: An example CloudFormation template for Fargate.
+Resources:
+  Cluster:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: 'fargate-cluster'
+  TaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      # Name of the task definition. Subsequent versions of the task definition are grouped together under this name.
+      Family: 'apis'
+      # awsvpc is required for Fargate
+      NetworkMode: awsvpc
+      RequiresCompatibilities:
+        - FARGATE
+      Cpu: 256
+      Memory: 0.5GB
+      ContainerDefinitions:
+        - Name: 'fargate service'
+          Image: 310643530327.dkr.ecr.ap-southeast-1.amazonaws.com/spring123:latest
+          PortMappings:
+            - ContainerPort: 8085
+          # Send logs to CloudWatch Logs
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              #awslogs-region: !Ref AWS::Region
+              awslogs-group: 'apis'
+              awslogs-stream-prefix: ecs
+  # A role for the containers
+  Service:
+    Type: AWS::ECS::Service
+    # This dependency is needed so that the load balancer is setup correctly in time
+    DependsOn:
+      - ListenerHTTPS
+    Properties: 
+      ServiceName: 'Fargate Service'
+      Cluster: !Ref Cluster
+      TaskDefinition: !Ref TaskDefinition
+      LaunchType:'FARGATE'
+      DeploymentConfiguration:
+        MinimumHealthyPercent: 70
+        MaximumPercent: 200
+      DesiredCount: 1
+      # This may need to be adjusted if the container takes a while to start up
+      LaunchType: FARGATE
+      NetworkConfiguration: 
+        AwsvpcConfiguration:
+          # change to DISABLED if you're using private subnets that have access to a NAT gateway
+          AssignPublicIp: ENABLED
+          #Subnets:
+           # - !Ref SubnetA
+           # - !Ref SubnetB
+          #SecurityGroups:
+            #- !Ref ContainerSecurityGroup
+      #LoadBalancers:
+        #- ContainerName: 'Fargate Service'
+          #ContainerPort: 80
+          #TargetGroupArn: !Ref TargetGroup
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: 'fargate logs'
+Outputs:
+  Service:
+    Value: !Ref 'Service'
+  Cluster:
+    Value: !Ref 'Cluster'
+  TaskDefinition:
+    Value: !Ref 'TaskDefinition'
