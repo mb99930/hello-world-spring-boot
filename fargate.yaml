@@ -1,4 +1,4 @@
-AWSTemplateFormatVersion: 2020-08-08
+AWSTemplateFormatVersion: '2020-08-08'
 Description: An example CloudFormation template for Fargate.
 Resources:
   Cluster:
