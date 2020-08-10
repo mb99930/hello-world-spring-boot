@@ -61,7 +61,7 @@ Resources:
   LogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: !Join ['', [/ecs/, 'Fargate Service', TaskDefinition]]
+      LogGroupName: !Join ['', [/ecs/, Fargate Service, TaskDefinition]]
 Outputs:
   Service:
     Value: !Ref 'Service'
