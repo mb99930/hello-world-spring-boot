@@ -35,7 +35,7 @@ Resources:
     #DependsOn:
       #- ListenerHTTPS
     Properties: 
-      ServiceName: 'Fargate Service'
+      ServiceName: 'FargateService'
       Cluster: !Ref Cluster
       TaskDefinition: !Ref TaskDefinition
       LaunchType: 'FARGATE'
@@ -61,7 +61,7 @@ Resources:
   LogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: !Join ['', [/ecs/, Fargate Service, TaskDefinition]]
+      LogGroupName: !Join ['', [/ecs/, FargateService, TaskDefinition]]
 Outputs:
   Service:
     Value: !Ref 'Service'
