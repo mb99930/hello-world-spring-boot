@@ -62,8 +62,8 @@ Resources:
         AwsvpcConfiguration:
           # change to DISABLED if you're using private subnets that have access to a NAT gateway
           AssignPublicIp: ENABLED
-          #Subnets:
-           # - !Ref SubnetA
+          Subnets:
+            - !Ref Subnet1
            # - !Ref SubnetB
           #SecurityGroups:
             #- !Ref ContainerSecurityGroup
@@ -71,6 +71,15 @@ Resources:
         #- ContainerName: 'Fargate Service'
           #ContainerPort: 80
           #TargetGroupArn: !Ref TargetGroup
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 172.31.0.0/16
+  Subnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 172.31.16.0/20
   LogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
