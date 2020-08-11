@@ -16,9 +16,10 @@ Resources:
         - FARGATE
       Cpu: 256
       Memory: 0.5GB
+      ExecutionRoleArn: !Ref ExecutionRole
       ContainerDefinitions:
         - Name: 'FargateService'
-          Image: 310643530327.dkr.ecr.ap-southeast-1.amazonaws.com/spring123:latest
+          Image: 310643530327.dkr.ecr.us-west-2.amazonaws.com/spring123:latest
           PortMappings:
             - ContainerPort: 8085
           # Send logs to CloudWatch Logs
@@ -28,6 +29,18 @@ Resources:
               awslogs-region: !Ref AWS::Region
               awslogs-group: 'apis'
               awslogs-stream-prefix: ecs
+  ExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Join ['', [!Ref ServiceName, ExecutionRole]]
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ecs-tasks.amazonaws.com
+            Action: 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy'
   # A role for the containers
   Service:
     Type: AWS::ECS::Service
