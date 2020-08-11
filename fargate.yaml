@@ -21,7 +21,7 @@ Resources:
         - Name: 'FargateService'
           Image: 310643530327.dkr.ecr.us-west-2.amazonaws.com/spring123:latest
           PortMappings:
-            - ContainerPort: 8085
+            - ContainerPort: 80
           # Send logs to CloudWatch Logs
           LogConfiguration:
             LogDriver: awslogs
@@ -46,22 +46,6 @@ Resources:
     Properties:
       GroupDescription: !Join ['', [FargateService, ContainerSecurityGroup]]
       VpcId: !Ref VPC
-      SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: 80
-          ToPort: 80
-          SourceSecurityGroupId: !Ref LoadBalancerSecurityGroup
-  #Load balancer security group configuration
-  LoadBalancerSecurityGroup:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: !Join ['', [FargateService, LoadBalancerSecurityGroup]]
-      VpcId: !Ref VPC
-      SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: 443
-          ToPort: 443
-          CidrIp: 0.0.0.0/0
   # A role for the containers
   Service:
     Type: AWS::ECS::Service
@@ -88,27 +72,6 @@ Resources:
            # - !Ref SubnetB
           SecurityGroups:
             - !Ref ContainerSecurityGroup
-      LoadBalancers:
-        - ContainerName: 'FargateService'
-          ContainerPort: 80
-          TargetGroupArn: !Ref TargetGroup
-  TargetGroup:
-    Type: AWS::ElasticLoadBalancingV2::TargetGroup
-    Properties:
-      HealthCheckIntervalSeconds: 10
-      # will look for a 200 status code by default unless specified otherwise
-      HealthCheckPath: /healthcheck
-      HealthCheckTimeoutSeconds: 5
-      UnhealthyThresholdCount: 2
-      HealthyThresholdCount: 2
-      Name: !Join ['', [FargateService, TargetGroup]]
-      Port: 80
-      Protocol: HTTP
-      TargetGroupAttributes:
-        - Key: deregistration_delay.timeout_seconds
-          Value: 60 # default is 300
-      TargetType: ip
-      VpcId: !Ref VPC
   VPC:
     Type: AWS::EC2::VPC
     Properties:
@@ -118,6 +81,13 @@ Resources:
     Properties:
       VpcId: !Ref VPC
       CidrBlock: 172.31.16.0/20
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+  GatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      InternetGatewayId: !Ref InternetGateway
+      VpcId: !Ref VPC
   LogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
