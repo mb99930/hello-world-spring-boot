@@ -32,7 +32,7 @@ Resources:
   ExecutionRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: !Join ['', [!Ref ServiceName, ExecutionRole]]
+      RoleName: !Join ['', [FargateService, ExecutionRole]]
       AssumeRolePolicyDocument:
         Statement:
           - Effect: Allow
