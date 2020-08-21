@@ -8,7 +8,7 @@ pipeline {
 
     stage('Build Docker Image'){
      steps {		
-			bat 'docker build -t CLX-REPX:1.0.${env.BUILD_ID} .'
+			bat 'docker build -t clx-repx:1.0.${env.BUILD_ID} .'
 		}
    }
    
@@ -16,8 +16,8 @@ pipeline {
 		steps {
         	echo 'connecting to ECR.. '
            withDockerRegistry([url: "https://310643530327.dkr.ecr.us-west-2.amazonaws.com/nginx",credentialsId: "ecr:us-west-2:aws-credentials"]) {
-           bat 'docker tag CLX-REPX:1.0.${env.BUILD_ID} 310643530327.dkr.ecr.us-west-2.amazonaws.com/CLX-REPX:1.0.${env.BUILD_ID}'
-	   bat 'docker push 310643530327.dkr.ecr.us-west-2.amazonaws.com/CLX-REPX:1.0.${env.BUILD_ID}'
+           bat 'docker tag clx-repx:1.0.${env.BUILD_ID} 310643530327.dkr.ecr.us-west-2.amazonaws.com/clx-repx:1.0.${env.BUILD_ID}'
+	   bat 'docker push 310643530327.dkr.ecr.us-west-2.amazonaws.com/clx-repx:1.0.${env.BUILD_ID}'
                }
 	    }
 	}
