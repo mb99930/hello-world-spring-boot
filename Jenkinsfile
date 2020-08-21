@@ -8,7 +8,7 @@ pipeline {
 
     stage('Build Docker Image'){
      steps {		
-			bat 'docker build -t clx-repx:1.0.${env.BUILD_ID} .'
+			bat 'docker build -t clx-repx .'
 		}
    }
    
