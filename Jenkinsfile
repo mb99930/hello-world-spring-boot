@@ -9,7 +9,7 @@ pipeline {
     stage('Build Docker Image'){
      steps {	
      		echo "Current Build Number is : ${BUILD_NUMBER}"
- 			bat 'docker build -t ${BUILD_NUMBER} .'
+ 			bat 'docker build -t clx-repx .'
 		}
    }
    
