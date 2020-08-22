@@ -17,8 +17,6 @@ pipeline {
      		echo "Current Image Name is : ${image}"
 			script{
 			//bat 'docker build -t clxrepx .'
-	     		echo "Inside Build script"
-
 			docker.build('clxrepx')
 			}
 		}
@@ -26,12 +24,12 @@ pipeline {
    
      stage('Push NGINX Docker Image'){
 		steps {
-        	echo 'connecting to ECR.. '
-           withDockerRegistry([url: "https://310643530327.dkr.ecr.us-west-2.amazonaws.com/clxrepx",credentialsId: "ecr:us-west-2:aws-credentials"]) {
-           bat 'docker tag clxrepx:${version} 310643530327.dkr.ecr.us-west-2.amazonaws.com/clxrepx:${version}'
-   		  bat 'docker push 310643530327.dkr.ecr.us-west-2.amazonaws.com/clxrepx:${version}'
-
-               }
+		script{
+        	echo 'connecting to ECR Inside Script.. '
+			docker.withRegistry('https://310643530327.dkr.ecr.us-west-2.amazonaws.com', 'ecr:us-west-2:aws-credentials') {
+					docker.image('clxrepx').push('${version}')
+			}
+			  }
 	    }
 	}
 
