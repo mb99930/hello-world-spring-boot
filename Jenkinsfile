@@ -9,7 +9,7 @@ pipeline {
     stage('Build Docker Image'){
      steps {	
      		echo "Current Build Number is : ${BUILD_NUMBER}"
- 			bat 'docker build -t clx-repx .'
+ 			bat 'docker build -t ${BUILD_NUMBER} .'
 		}
    }
    
@@ -17,7 +17,7 @@ pipeline {
 		steps {
         	echo 'connecting to ECR.. '
            withDockerRegistry([url: "https://310643530327.dkr.ecr.us-west-2.amazonaws.com/clx-repx",credentialsId: "ecr:us-west-2:aws-credentials"]) {
-           bat 'docker tag clx-repx 310643530327.dkr.ecr.us-west-2.amazonaws.com/clx-repx:${BUILD_NUMBER}'
+           bat 'docker tag ${BUILD_NUMBER} 310643530327.dkr.ecr.us-west-2.amazonaws.com/clx-repx:${BUILD_NUMBER}'
            //bat 'docker tag clx-repx:latest 310643530327.dkr.ecr.us-west-2.amazonaws.com/clx-repx:latest'
 			
 			//bat 'docker push 310643530327.dkr.ecr.us-west-2.amazonaws.com/clx-repx:latest'
