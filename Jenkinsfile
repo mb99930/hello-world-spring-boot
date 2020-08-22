@@ -5,6 +5,8 @@ pipeline {
         }
 	environment {
 		version = "${BUILD_NUMBER}"
+		project = 'clx-repx'
+		image = "$project:$version"
 	}	
 	stages {
 
@@ -12,9 +14,11 @@ pipeline {
      steps {	
      		echo "Current Build Number is : ${BUILD_NUMBER}"
      		echo "Current Build Number is : ${version}"
+     		echo "Current Image Name is : ${image}"
 
- 			bat 'docker build clx-repx:${version} .'
+ 			bat 'docker build ${image} .'
 		}
    }
+   
 }
 }
