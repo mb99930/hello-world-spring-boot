@@ -15,7 +15,10 @@ pipeline {
      		echo "Current Build Number is : ${BUILD_NUMBER}"
      		echo "Current Build Number is : ${version}"
      		echo "Current Image Name is : ${image}"
-			bat 'docker build -t clxrepx .'
+			script{
+			//bat 'docker build -t clxrepx .'
+			docker.build('clxrepx')
+			}
 		}
    }
    
