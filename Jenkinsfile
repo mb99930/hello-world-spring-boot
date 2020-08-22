@@ -17,6 +17,8 @@ pipeline {
      		echo "Current Image Name is : ${image}"
 			script{
 			//bat 'docker build -t clxrepx .'
+	     		echo "Inside Build script"
+
 			docker.build('clxrepx')
 			}
 		}
