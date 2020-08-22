@@ -5,7 +5,7 @@ pipeline {
         }
 	environment {
 		version = "${BUILD_NUMBER}"
-		project = 'clx-repx'
+		project = 'clxrepx'
 		image = "$project:$version"
 	}	
 	stages {
