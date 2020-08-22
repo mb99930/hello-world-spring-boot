@@ -16,7 +16,7 @@ pipeline {
      		echo "Current Build Number is : ${version}"
      		echo "Current Image Name is : ${image}"
 
- 			bat 'docker build -t ${project}/${image} .'
+ 			bat 'docker build -t clxrepx .'
 		}
    }
    
@@ -24,8 +24,8 @@ pipeline {
 		steps {
         	echo 'connecting to ECR.. '
            withDockerRegistry([url: "https://310643530327.dkr.ecr.us-west-2.amazonaws.com/clxrepx",credentialsId: "ecr:us-west-2:aws-credentials"]) {
-           bat 'docker tag ${image} 310643530327.dkr.ecr.us-west-2.amazonaws.com/${image}'
-   		  bat 'docker push 310643530327.dkr.ecr.us-west-2.amazonaws.com/${image}'
+		   bat 'docker tag clxrepx:"${version}" 310643530327.dkr.ecr.us-west-2.amazonaws.com/clxrepx:"${version}"'
+   		  bat 'docker push 310643530327.dkr.ecr.us-west-2.amazonaws.com/clxrepx:"${version}"'
 
                }
 	    }
