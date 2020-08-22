@@ -7,8 +7,9 @@ pipeline {
 	stages {
 
     stage('Build Docker Image'){
-     steps {		
-			bat 'docker build -t clx-repx:"${BUILD_NUMBER}" .'
+     steps {
+	     		echo "Current Build Number is : ${BUILD_NUMBER}"
+			//bat 'docker build -t clx-repx:"${BUILD_NUMBER}" .'
 		}
    }
    
