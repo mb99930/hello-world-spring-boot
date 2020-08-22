@@ -23,7 +23,7 @@ pipeline {
 		steps {
         	echo 'connecting to ECR.. '
            withDockerRegistry([url: "https://310643530327.dkr.ecr.us-west-2.amazonaws.com/clxrepx",credentialsId: "ecr:us-west-2:aws-credentials"]) {
-           bat 'docker clxrepx:${version} 310643530327.dkr.ecr.us-west-2.amazonaws.com/clxrepx:${version}'
+           bat 'docker tag clxrepx:${version} 310643530327.dkr.ecr.us-west-2.amazonaws.com/clxrepx:${version}'
    		  bat 'docker push 310643530327.dkr.ecr.us-west-2.amazonaws.com/clxrepx:${version}'
 
                }
