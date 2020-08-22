@@ -13,7 +13,7 @@ pipeline {
      		echo "Current Build Number is : ${BUILD_NUMBER}"
      		echo "Current Build Number is : ${version}"
 
- 			bat 'docker build -t clx-repx:${version} .'
+ 			bat 'docker build clx-repx:${version} .'
 		}
    }
 }
