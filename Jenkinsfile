@@ -16,7 +16,7 @@ pipeline {
      		echo "Current Build Number is : ${version}"
      		echo "Current Image Name is : ${image}"
 
- 			bat 'docker build -t ${project} .'
+ 			bat 'docker build -t ${project}/${image} .'
 		}
    }
    
